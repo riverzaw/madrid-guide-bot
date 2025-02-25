@@ -1,0 +1,15 @@
+{
+    "welcome": "Welcome! Use /register_admin <code> to register as an admin.",
+    "registerAdminUsage": "Usage: /register_admin <code>",
+    "adminRegistered": "You have been registered as an admin.",
+    "invalidAdminCode": "Invalid admin registration code.",
+    "unauthorizedCommand": "You are not authorized to use this command.",
+    "replyRequired": "Please use this command as a reply to the message you want to add to the guide.",
+    "onlyAdminsAuthorize": "Only admins can authorize users.",
+    "authorizeUserUsage": "Usage: /authorize_user <username>",
+    "deauthorizeUserUsage": "Usage: /deauthorize_user <username>",
+    "userAuthorized": "User @%s has been authorized to use the /add_to_guide command.",
+    "userDeauthorized": "User @%s has been deauthorized from using the /add_to_guide command.",
+    "suggestionContext": "Suggestion from user @%s in chat %s (ID: %d)",
+    "thankYou": "Thank you, @%s! Your suggestion has been successfully sent to the guide's admins for review."
+}
