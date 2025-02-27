@@ -68,6 +68,8 @@ func NewMessageHandler(adminCode string, adminFile string) *MessageHandler {
 	}
 	if err := h.loadData(); err != nil {
 		log.Printf("Could not load admin data: %v", err)
+		h.admins = make(map[string]bool)
+		h.authorizedUsers = make(map[string]bool)
 	}
 	return h
 }
@@ -76,13 +78,23 @@ func (h *MessageHandler) loadData() error {
 	data, err := os.ReadFile(h.adminFile)
 	if err != nil {
 		if os.IsNotExist(err) {
-			return fmt.Errorf("error reading admin file: %v", err)
+			h.admins = make(map[string]bool)
+			h.authorizedUsers = make(map[string]bool)
+			fmt.Errorf("error reading admin file: %v", err)
+			return nil
 		}
+		return err
 	}
 
 	var fileData FileData
 	if err := json.Unmarshal(data, &fileData); err != nil {
 		return fmt.Errorf("error unmarshaling data: %v", err)
+	}
+	if fileData.Admins == nil {
+		fileData.Admins = make(map[string]AdminData)
+	}
+	if fileData.AuthorizedUsers == nil {
+		fileData.AuthorizedUsers = make(map[string]bool)
 	}
 
 	h.mu.Lock()
@@ -147,7 +159,7 @@ func (h *MessageHandler) handleRegisterAdmin(msg *tgbotapi.Message, code string)
 	}
 
 	if code != h.adminCode {
-		return h.createMessage(msg.Chat.ID, "Invalid admin code."), nil
+		return h.createMessage(msg.Chat.ID, getMessage("invalidAdminCode")), nil
 	}
 
 	h.mu.Lock()
@@ -192,7 +204,7 @@ func (h *MessageHandler) handleDeauthorizeUser(msg *tgbotapi.Message, username s
 	h.mu.RUnlock()
 
 	if !isAdmin {
-		return h.createMessage(msg.Chat.ID, "Only admins can deauthorize users."), nil
+		return h.createMessage(msg.Chat.ID, getMessage("unauthorizedCommand")), nil
 	}
 
 	username = strings.TrimPrefix(username, "@")
