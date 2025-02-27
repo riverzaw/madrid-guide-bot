@@ -10,6 +10,10 @@ jobs:
 
   build:
     runs-on: ubuntu-latest
+    env:
+      TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+      ADMIN_REGISTRATION_CODE: ${{ secrets.ADMIN_REGISTRATION_CODE }}
+      DATA_DIR: ${{ secrets.DATA_DIR }}
     steps:
       - uses: actions/checkout@v4
 
