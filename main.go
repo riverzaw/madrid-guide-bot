@@ -2,9 +2,10 @@ package main
 
 import (
 	"log"
-	"madrid-guide-bot/bot"
 	"os"
 	"path/filepath"
+
+	"github.com/riverzaw/madrid-guide-bot/bot"
 
 	"github.com/joho/godotenv"
 )

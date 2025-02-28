@@ -1,4 +1,4 @@
-module madrid-guide-bot
+module github.com/riverzaw/madrid-guide-bot
 
 go 1.21.1
 
