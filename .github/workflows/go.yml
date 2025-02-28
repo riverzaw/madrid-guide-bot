@@ -13,9 +13,12 @@ jobs:
     env:
       TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
       ADMIN_REGISTRATION_CODE: ${{ secrets.ADMIN_REGISTRATION_CODE }}
-      DATA_DIR: ${{ secrets.DATA_DIR }}
     steps:
       - uses: actions/checkout@v4
+      - name: Set DATA_DIR dynamically
+        run: |
+          echo "DATA_DIR=$(pwd)/data" >> $GITHUB_ENV
+          echo $DATA_DIR
 
       - name: Setup Go
         uses: actions/setup-go@v4
@@ -25,5 +28,6 @@ jobs:
       - name: Build
         run: go build -v ./...
 
-      - name: Test
-        run: go test -v ./...
+      - name: Change to project directory
+        run: cd $GITHUB_WORKSPACE && DATA_DIR=data go test -v ./...
+

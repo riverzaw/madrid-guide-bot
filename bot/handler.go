@@ -32,13 +32,34 @@ type MessageHandler struct {
 var Messages map[string]string
 
 func LoadMessages() {
+
+	wd, err := os.Getwd()
+	if err != nil {
+		log.Fatalf("Failed to get working directory: %v", err)
+	}
+	log.Printf("Current working directory: %s", wd)
+
 	dataDir := os.Getenv("DATA_DIR")
+	log.Printf("dataDir in test: %v", dataDir)
 	if dataDir == "" {
 		dataDir = "data"
 	}
-	data, err := os.ReadFile(filepath.Join(dataDir, "messages.json"))
+	// Go one level up from "bot/" to project root
+	projectRoot := filepath.Dir(wd) // One level up
+	messagesPath := filepath.Join(projectRoot, dataDir, "messages.json")
+
+	// Print the corrected absolute path
+	absPath, _ := filepath.Abs(messagesPath)
+	log.Printf("Attempting to read file at: %s", absPath)
+
+	// Check if file exists
+	if _, err := os.Stat(absPath); os.IsNotExist(err) {
+		log.Fatalf("File does not exist: %s", absPath)
+	}
+
+	data, err := os.ReadFile(absPath)
 	if err != nil {
-		log.Fatalf("Error reading messages file: %v", err)
+		log.Fatalf("Error reading messages file: %v, filepath: %v", err, dataDir)
 	}
 
 	err = json.Unmarshal(data, &Messages)
