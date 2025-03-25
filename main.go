@@ -6,15 +6,9 @@ import (
 	"path/filepath"
 
 	"github.com/riverzaw/madrid-guide-bot/bot"
-
-	"github.com/joho/godotenv"
 )
 
 func main() {
-	if err := godotenv.Load(".env"); err != nil {
-		log.Fatalf("Error loading .env file: %v", err)
-	}
-
 	dataDir := os.Getenv("DATA_DIR")
 	if dataDir == "" {
 		dataDir = "data"
