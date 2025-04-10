@@ -3,6 +3,9 @@ package bot
 import (
 	"fmt"
 	"log"
+	"os"
+	"strconv"
+	"strings"
 
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 )
@@ -10,17 +13,13 @@ import (
 type Config struct {
 	TelegramToken string
 	AdminCode     string
-	AdminFile     string
-	MessagesFile  string
 }
 
-// Bot represents the Telegram bot instance
 type Bot struct {
 	api            *tgbotapi.BotAPI
 	messageHandler *MessageHandler
 }
 
-// New creates a new Bot instance
 func New(config *Config) (*Bot, error) {
 	api, err := tgbotapi.NewBotAPI(config.TelegramToken)
 	if err != nil {
@@ -31,11 +30,10 @@ func New(config *Config) (*Bot, error) {
 
 	return &Bot{
 		api:            api,
-		messageHandler: NewMessageHandler(config.AdminCode, config.AdminFile),
+		messageHandler: NewMessageHandler(config.AdminCode, api),
 	}, nil
 }
 
-// Start begins polling for updates
 func (b *Bot) Start() error {
 	u := tgbotapi.NewUpdate(0)
 	u.Timeout = 60
@@ -64,4 +62,19 @@ func (b *Bot) Start() error {
 	}
 
 	return nil
+}
+
+func LoadAdmins() []int64 {
+	adminStr := os.Getenv("ADMIN_IDS")
+	if adminStr == "" {
+		return []int64{}
+	}
+	var adminIDs []int64
+	for _, idStr := range strings.Split(adminStr, ",") {
+		id, err := strconv.ParseInt(strings.TrimSpace(idStr), 10, 64)
+		if err == nil {
+			adminIDs = append(adminIDs, id)
+		}
+	}
+	return adminIDs
 }

@@ -15,9 +15,6 @@ jobs:
       ADMIN_REGISTRATION_CODE: ${{ secrets.ADMIN_REGISTRATION_CODE }}
     steps:
       - uses: actions/checkout@v4
-      - name: Set DATA_DIR dynamically
-        run: |
-          echo "DATA_DIR=$(pwd)/data" >> $GITHUB_ENV
 
       - name: Setup Go
         uses: actions/setup-go@v4
@@ -28,5 +25,5 @@ jobs:
         run: go build -v ./...
 
       - name: Change to project directory and run tests
-        run: cd $GITHUB_WORKSPACE && DATA_DIR=data go test -v ./...
+        run: cd $GITHUB_WORKSPACE go test -v ./...
 
