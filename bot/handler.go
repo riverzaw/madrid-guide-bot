@@ -116,9 +116,8 @@ func (h *MessageHandler) handleHelp(msg *tgbotapi.Message) (*tgbotapi.MessageCon
 
 /register_admin - Register as an admin using the admin code
 /add_to_guide - Submit a message to be added to the guide (reply to a message)
-/help - See help message
-
-For authorized users: Reply to any message with /add_to_guide to submit it for the guide.`
+/help - Show help message
+`
 
 	return h.createMessage(msg.Chat.ID, helpText), nil
 }
