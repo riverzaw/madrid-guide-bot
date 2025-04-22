@@ -114,7 +114,6 @@ func (h *MessageHandler) handleAddToGuide(msg *tgbotapi.Message) (*tgbotapi.Mess
 func (h *MessageHandler) handleHelp(msg *tgbotapi.Message) (*tgbotapi.MessageConfig, error) {
 	helpText := `Available commands:
 
-/register_admin - Register as an admin using the admin code
 /add_to_guide - Submit a message to be added to the guide (reply to a message)
 /help - Show help message
 `

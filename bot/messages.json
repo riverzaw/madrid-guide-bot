@@ -3,6 +3,6 @@
     "adminRegistered": "You have been registered as an admin.",
     "invalidAdminCode": "Invalid admin registration code.",
     "suggestionContext": "Suggestion from user @%s in chat %s (ID: %d)",
-    "replyRequired": "Напишите эту команду реплаем на сообщение, которое хотите предложить добавить в гайд.",
+    "replyRequired": "Отправьте эту команду реплаем на сообщение, которое хотите добавить в гайд.",
     "thankYou": "Спасибо, @%s! Ваше предложение отправлено куда следует."
 }
